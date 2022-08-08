@@ -1,0 +1,6 @@
+.DS_Store
+*.class
+stocks.csv
+dpc5.iws
+out
+rebase-to-beginning.sh
