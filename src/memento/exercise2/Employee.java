@@ -7,7 +7,12 @@
  */
 package memento.exercise2;
 
-public final class Employee {
+import java.io.Serial;
+import java.io.Serializable;
+
+public final class Employee implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public enum Position {TESTER, PROGRAMMER, MANAGER}
 
     private int salary = 1000;
@@ -48,7 +53,14 @@ public final class Employee {
         this.position = mi.position;
     }
 
-    private static class EmployeeMemento implements Memento {
+    @Serial
+    private Object writeReplace() {
+        return createMemento();
+    }
+
+    private static class EmployeeMemento implements Memento, Serializable {
+        @Serial
+        private static final long serialVersionUID = 1L;
         private final int salary;
         private final int balance;
         private final Employee.Position position;
@@ -57,6 +69,13 @@ public final class Employee {
             this.salary = employee.salary;
             this.balance = employee.balance;
             this.position = employee.position;
+        }
+
+        @Serial
+        private Object readResolve() {
+            Employee employee = new Employee();
+            employee.setMemento(this);
+            return employee;
         }
     }
 }

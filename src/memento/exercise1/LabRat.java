@@ -7,8 +7,8 @@
  */
 package memento.exercise1;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class LabRat {
     private double cd4Ratio = 0.5;
@@ -40,5 +40,19 @@ public class LabRat {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public Memento createMemento() {
+        return new LabRatMemento(cd4Ratio, alive);
+    }
+
+    public void setMemento(Memento m) {
+        LabRatMemento lrm = (LabRatMemento) m;
+        this.cd4Ratio = lrm.cd4Ratio;
+        this.alive = lrm.alive;
+    }
+
+    private record LabRatMemento(double cd4Ratio, boolean alive)
+        implements Memento {
     }
 }
